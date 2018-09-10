@@ -12,11 +12,11 @@ import (
 IntegrateRCServer is executed with following command: ./IntegrateRCServer <devId> <appId> <appAccessKey> 
 The command line arguments are needed for the request: GET/temperature/"+appID+"/"+devID
 
-The package "oTemper" provides the microservice "OTemp" for reciving the office temperature
-You can find the package "oTemper" in "vendor/github.com/lauenburg/IntegrateRCServer/oTemp" with in the "IntegrateRCServer" folder
+The package "oTemper" provides the microservice "OTemp" for receiving the office temperature
+You can find the package "oTemper" in "vendor/github.com/lauenburg/IntegrateRCServer/oTemp" within the "IntegrateRCServer" folder
 
-In case that the browser request for the website icon ("favicon.ico") is to be counted in addtion to the user's request 
-move the "counter++" outside of the if-else statement and omit the second else-if case.
+In case that the browser request for the website icon ("favicon.ico") is to be counted in addition to the user's 
+request move the "counter++" outside of the if-else statement and omit the second else-if case.
 */
 
 
