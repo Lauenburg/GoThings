@@ -2,10 +2,10 @@
 
 This repository contains the answer to a case given as part of an application process.
 
-The case is composed of the following three subtasks:
-    - Delivering a server which counts the requests its handles and can return this number when requested
-    - Implement a microservice that keep track of the temperature measurements published by a TTNode
-    -Combine subtask one and two to allowing requests to the server which return the most current temperature measurement
+The case is composed of the following three subtasks:\
+    - Delivering a server which counts the requests its handles and can return this number when requested\
+    - Implement a microservice that keep track of the temperature measurements published by a TTNode\
+    -Combine subtask one and two to allowing requests to the server which return the most current temperature measurement\
     
 ##### Tree Structure     
 
@@ -22,5 +22,5 @@ RCServer relates to the first, OTemperature to the second and IntegrateRCServer 
 - Run "make all" to build
 
 ###### Execute binarys:
-To execute RCServer run:  ./RCServer
+To execute RCServer run:  ./RCServer\
 To execute the OTemperature and the IntegrateRCServer tasks run: ./filname <devId> <appId> <appAccessKey>
