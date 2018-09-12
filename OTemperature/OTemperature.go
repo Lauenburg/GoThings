@@ -11,21 +11,26 @@ package main
 import (
 	"fmt"
 	"os"
+	"sync"
 
 	ttnsdk "github.com/TheThingsNetwork/go-app-sdk"
 	ttnlog "github.com/TheThingsNetwork/go-utils/log"
 	"github.com/TheThingsNetwork/go-utils/log/apex"
+	"github.com/TheThingsNetwork/ttn/core/types"
+	"github.com/apex/log"
 )
 
 const (
 	sdkClientName = "OfficeTemperature"
 )
 
+var wg sync.WaitGroup
+
 func main() {
 
 	//Ensures that the user entered the necessary three arguments at execution
 	if len(os.Args) != 4 {
-		fmt.Println("Please make sure to provide the arguments devId, appId and appAccessKey when executing the programm.")
+		fmt.Println("Please make sure to provide the arguments devId, appId, and appAccessKey when executing the program.")
 		os.Exit(1)
 	}
 
@@ -34,7 +39,7 @@ func main() {
 	ttnlog.Set(log)      // Set the logger as default for TTN
 
 	//Reading the arguments device ID, application ID and application access key as command line arguments
-	//Do to the securrerty issues the idea of an config file has been omited
+	//Do to the security issues the idea of a config file has been omitted
 	devID := os.Args[1]
 	appID := os.Args[2]
 	appAccessKey := os.Args[3]
@@ -64,13 +69,32 @@ func main() {
 		log.WithError(err).Fatalf("%s: could not subscribe to uplink messages", sdkClientName)
 	}
 
-	// Starts goroutine that keeps reading messages from the MQTT message broker
-	go func() {
-		uplinkMessage, ok := <-uplink
-		//ok checks if the channel is still open
-		for ok {
-			log.WithField("data", uplinkMessage.PayloadFields["temperature"]).Infof("%s: received uplink", sdkClientName)
-			uplinkMessage, ok = <-uplink
-		}
-	}()
+	// Starts goroutine that keeps reading messages from the MQTT message broker and
+	//setting a wait, so the main function waits for it to complete
+	wg.Add(1)
+	go listenToBroker(uplink)
+	wg.Wait()
+
+}
+
+//Listens to broker and logs the received messages as long as the channel is open
+func listenToBroker(uplink <-chan *types.UplinkMessage) {
+	//cleanup catches possible panics and sets wait.Done()
+	defer cleanup()
+	//sends status and message from channel to varibales
+	uplinkMessage, ok := <-uplink
+	//while loop that runs as long as the channel is open
+	for ok {
+		log.WithField("data", uplinkMessage.PayloadFields["temperature"]).Infof("%s: received uplink", sdkClientName)
+		//reciving new message and staus
+		uplinkMessage, ok = <-uplink
+	}
+}
+
+//cleanup handels possible panics and sets wait.Done() for the goroutine
+func cleanup() {
+	if r := recover(); r != nil {
+		fmt.Println("Recoverd by cleanup function: ", r)
+	}
+	wg.Done()
 }
