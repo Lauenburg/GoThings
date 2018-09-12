@@ -1,7 +1,7 @@
 #Makefile for IntegrateRCServer
 
 BUILDPATH=$(CURDIR)
-EXENAME=OTemperature
+#EXENAME=IntegrateRCServer
 
 #export GOPATH=$(CURDIR)
 
