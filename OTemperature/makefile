@@ -1,11 +1,6 @@
 #Makefile for OTemperature
 
 BUILDPATH=$(CURDIR)
-VGO=$(shell which vgo)
-VGOINIT = $(VGO) mod init
-VGOBUILD=$(VGO) build
-VGOCLEAN=$(VGO) clean
-VGOGET=$(VGO) get
 
 #EXENAME=OTemperature
 
@@ -22,6 +17,7 @@ deps:
 	$(shell vgo get github.com/TheThingsNetwork/go-app-sdk)
 	$(shell vgo get github.com/TheThingsNetwork/go-utils/log)
 	$(shell vgo get github.com/TheThingsNetwork/go-utils/log/apex)
+	$(shell vgo get "github.com/TheThingsNetwork/ttn/core/types")
 
 build:
 	@echo "start building..."
