@@ -3,11 +3,10 @@
 BUILDPATH=$(CURDIR)
 EXENAME=OTemperature
 
-export GOPATH=$(CURDIR)
-export GOBIN=$(CURDIR/bin)
+#export GOPATH=$(CURDIR)
 
-myname:
-	@echo "Make file for OTemperature. Type 'make all' to build tree, load packages and build."
+help:
+	@echo "Make file for IntegrateRCServer. Type 'make all' to build tree, load packages and build."
 	@echo "This make file expects that vgo installed (go get -u golang.org/x/vgo)"
 
 init:
@@ -18,8 +17,9 @@ deps:
 	$(shell vgo get github.com/TheThingsNetwork/go-app-sdk)
 	$(shell vgo get github.com/TheThingsNetwork/go-utils/log)
 	$(shell vgo get github.com/TheThingsNetwork/go-utils/log/apex)
-	$(shell vgo get github.com/Lauenburg/GoThings/tree/master/IntegrateRCServer/vendor/github.com/lauenburg/IntegrateRCServer/oTemp)
+	$(shell vgo get github.com/Lauenburg/GoThings/IntegrateRCServer/oTemp)
 	$(shell vgo get github.com/gorilla/mux)
+
 
 build:
 	@echo "start building..."

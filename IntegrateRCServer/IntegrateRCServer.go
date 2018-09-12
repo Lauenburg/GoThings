@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/Lauenburg/GoThings/IntegrateRCServer/oTemp"
 	"github.com/gorilla/mux"
-	"github.com/lauenburg/IntegrateRCServer/oTemp"
 )
 
 /*
