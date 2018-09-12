@@ -1,7 +1,5 @@
 /*
 The task was to create a microservice that keeps track of the current temperature.
-This script represents a stand-alone program which returns the most recent temperature measurement.
-For the third task this file is changed from "package main" to "package oTemper" to be accessible as service, this naturally also includes changing the function from main to OTemp.
 The arguments device ID, application ID and application access key are passed to the programm as command line arguments:
 
 ./OTemperature <devId> <appId> <appAccessKey>
@@ -25,6 +23,7 @@ const (
 
 func main() {
 
+	//Ensures that the user entered the necessary three arguments at execution
 	if len(os.Args) != 4 {
 		fmt.Println("Please make sure to provide the arguments devId, appId and appAccessKey when executing the programm.")
 		os.Exit(1)
@@ -65,8 +64,13 @@ func main() {
 		log.WithError(err).Fatalf("%s: could not subscribe to uplink messages", sdkClientName)
 	}
 
-	// <- sends the UplinkMessage of <-chan *types.UplinkMessage to the varibale uplink
-	uplinkMessage := <-uplink
-	log.WithField("data", uplinkMessage.PayloadFields["temperature"]).Infof("%s: received uplink", sdkClientName)
-
+	// Starts goroutine that keeps reading messages from the MQTT message broker
+	go func() {
+		uplinkMessage, ok := <-uplink
+		//ok checks if the channel is still open
+		for ok {
+			log.WithField("data", uplinkMessage.PayloadFields["temperature"]).Infof("%s: received uplink", sdkClientName)
+			uplinkMessage, ok = <-uplink
+		}
+	}()
 }

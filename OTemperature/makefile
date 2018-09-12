@@ -7,14 +7,14 @@ VGOBUILD=$(VGO) build
 VGOCLEAN=$(VGO) clean
 VGOGET=$(VGO) get
 
-EXENAME=OTemperature
+#EXENAME=OTemperature
 
-export GOPATH=$(CURDIR)
-export GOBIN=$(CURDIR/bin)
+#export GOPATH=$(CURDIR)
 
-myname:
-	@echo "Make file for OTemperature. Type 'make all' to build tree, load packages and build."
-
+help:
+    @echo "Make file for OTemperature. Type 'make all' to build tree, load packages and build."
+    @echo "This make file expects that vgo is installed (go get -u golang.org/x/vgo)"
+    @echo "Write 'make all' to build"
 init:
 	$(shell vgo mod init)
 deps:
@@ -22,17 +22,9 @@ deps:
 	$(shell vgo get github.com/TheThingsNetwork/go-app-sdk)
 	$(shell vgo get github.com/TheThingsNetwork/go-utils/log)
 	$(shell vgo get github.com/TheThingsNetwork/go-utils/log/apex)
-	@echo "all done"
 
 build:
 	@echo "start building..."
 	$(shell vgo build)
-	@echo "build was successful"
-
-clean:
-	@echo "cleanning"
-	@rm -rf $(BUILDPATH)/bin/$(EXENAME)
-	@rm -rf $(BUILDPATH)/pkg
-	@rm -rf $(BUILDPATH)/src/github.com
 
 all: init deps build
