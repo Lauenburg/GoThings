@@ -15,6 +15,7 @@ const (
 	sdkClientName = "OfficeTemperature"
 )
 
+//this function subscribes to an MQTT broker and returns a channel linking to the subscription
 func OTemp(devID, appID string, appAccessKey string) <-chan *types.UplinkMessage {
 
 	//Setting up the logging to Stdout
