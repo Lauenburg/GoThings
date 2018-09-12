@@ -4,7 +4,7 @@ EXENAME=RCServer
 
 #export GOPATH=$(CURDIR)
 
-myname:
+help:
 	@echo "Make file for RCServer. Type 'make all' to load packages and build."
 	@echo "This make file expects that vgo installed (go get -u golang.org/x/vgo)"
 	@echo "Write 'make all' to build"
