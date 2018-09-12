@@ -33,7 +33,7 @@ func main() {
 	r := mux.NewRouter()
 
 	// Route handle: Returning the counter and incrementing the counter
-	r.HandleFunc("/Count", returnCounter).Methods("GET")
+	r.HandleFunc("/count", returnCounter).Methods("GET")
 
 	//NotFoundHandler to catch error 404 page not found and increment counter
 	r.NotFoundHandler = http.HandlerFunc(notFound)
