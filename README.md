@@ -14,7 +14,7 @@ RCServer relates to the first, OTemperature to the second and IntegrateRCServer 
 
 #### Build and execute
 ###### Building the project:
-- This makefile expects that vgo is installed to manage the dependencies
+- The makefiles expect that vgo is installed to manage the dependencies
     - Download vgo: go get -u golang.org/x/vgo
     - Link the vgo binary to your path
     - For more information see: https://github.com/golang/vgo
