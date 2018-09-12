@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/Lauenburg/GoThings/IntegrateRCServer/oTemp"
+	"github.com/TheThingsNetwork/ttn/core/types"
 	"github.com/gorilla/mux"
 )
 
@@ -29,6 +30,9 @@ var devID string
 var appID string
 var appAccessKey string
 
+var uplink <-chan *types.UplinkMessage
+var uplinkMessage *types.UplinkMessage
+
 // function executed for request "/Count"
 func returnCounter(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "You are talking to instance %s:[internal_port]. This is the %dth request to this instance.", r.Host, counter)
@@ -37,7 +41,7 @@ func returnCounter(w http.ResponseWriter, r *http.Request) {
 
 // function executed for request "/Count"
 func returnTemperature(w http.ResponseWriter, r *http.Request) {
-	uplinkMessage := oTemp.OTemp(devID, appID, appAccessKey)
+	uplinkMessage = <-uplink
 	fmt.Fprintf(w, "It's currently %.2f degrees in office %s/%s", uplinkMessage.PayloadFields["temperature"], appID, devID)
 	counter++
 }
@@ -59,6 +63,8 @@ func main() {
 	devID = os.Args[1]
 	appID = os.Args[2]
 	appAccessKey = os.Args[3]
+
+	uplink = oTemp.OTemp(devID, appID, appAccessKey)
 
 	// Init router
 	r := mux.NewRouter()
