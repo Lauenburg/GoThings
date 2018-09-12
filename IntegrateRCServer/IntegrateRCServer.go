@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/gorilla/mux"
 	"github.com/lauenburg/IntegrateRCServer/oTemp"
 )
 
@@ -28,23 +29,28 @@ var devID string
 var appID string
 var appAccessKey string
 
-//http.HandlerFunc handels requests to a specified web root
-//Request count: GET/Counter
-func handler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path[1:] == "GET/Count" {
-		fmt.Fprintf(w, "You are talking to instance %s:[internal_port]. This is the %dth request to this instance.", r.Host, counter)
-	} else if r.URL.Path[1:] == "GET/temperature/"+appID+"/"+devID {
-		a := oTemp.OTemp(devID, appID, appAccessKey)
-		fmt.Fprintf(w, "It's currently %.2f degrees in office %s/%s", a.PayloadFields["temperature"], appID, devID)
-	} else if r.URL.Path[1:] == "favicon.ico" {
-		counter++
-	} else {
-		fmt.Fprintf(w, "Nothing to see here. But the request still counts!")
-	}
+// function executed for request "/Count"
+func returnCounter(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "You are talking to instance %s:[internal_port]. This is the %dth request to this instance.", r.Host, counter)
+	counter++
+}
+
+// function executed for request "/Count"
+func returnTemperature(w http.ResponseWriter, r *http.Request) {
+	uplinkMessage := oTemp.OTemp(devID, appID, appAccessKey)
+	fmt.Fprintf(w, "It's currently %.2f degrees in office %s/%s", uplinkMessage.PayloadFields["temperature"], appID, devID)
+	counter++
+}
+
+// function executed when the router can not find any matches
+func notFound(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Nothing to see here. But the request still counts!")
+	counter++
 }
 
 func main() {
 
+	//Ensures that the user entered the necessary three arguments at execution
 	if len(os.Args) != 4 {
 		fmt.Println("Please make sure to provide the arguments devId, appId and appAccessKey when executing the programm.")
 		os.Exit(1)
@@ -53,10 +59,19 @@ func main() {
 	devID = os.Args[1]
 	appID = os.Args[2]
 	appAccessKey = os.Args[3]
-	//http.HandleFunc("/", handler) tells the http package to handle all requests to the web root ("/") with handler
-	http.HandleFunc("/", handler)
-	//http.ListenAndServe, specifice that the http package should listen on port 8080
-	//ListenAndServe always returns an error, since it only returns when an unexpected error occurs.
-	//In order to log that error we wrap the function call with log.Fatal.
-	log.Fatal(http.ListenAndServe(":8080", nil))
+
+	// Init router
+	r := mux.NewRouter()
+
+	// Route handle: Returning the counter and incrementing the counter
+	r.HandleFunc("/Count", returnCounter).Methods("GET")
+
+	// Route handle: Returning the temperature and incrementing the counter
+	r.HandleFunc("/Temperature/"+appID+"/"+devID, returnTemperature).Methods("GET")
+
+	//NotFoundHandler to catch error 404 page not found and increment counter
+	r.NotFoundHandler = http.HandlerFunc(notFound)
+
+	// Start server
+	log.Fatal(http.ListenAndServe(":8080", r))
 }
