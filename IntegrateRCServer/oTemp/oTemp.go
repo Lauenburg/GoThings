@@ -15,7 +15,7 @@ const (
 	sdkClientName = "OfficeTemperature"
 )
 
-func OTemp(devID, appID string, appAccessKey string) *types.UplinkMessage {
+func OTemp(devID, appID string, appAccessKey string) chan *types.UplinkMessage {
 
 	//Setting up the logging to Stdout
 	log := apex.Stdout() // We use a cli logger at Stdout
@@ -47,7 +47,6 @@ func OTemp(devID, appID string, appAccessKey string) *types.UplinkMessage {
 	}
 
 	// <- sends the UplinkMessage of chan *types.UplinkMessage to the varibale uplink
-	uplinkMessage := <-uplink
+	return uplink
 
-	return uplinkMessage
 }
