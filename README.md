@@ -14,7 +14,7 @@ RCServer relates to the first, OTemperature to the second and IntegrateRCServer 
 
 #### Build and execute
 ###### Building the project:
-- This makefile expects that vgo installed to manage the dependencies
+- This makefile expects that vgo is installed to manage the dependencies
     - Download vgo: go get -u golang.org/x/vgo
     - Link the vgo binary to your path
     - For more information see: https://github.com/golang/vgo
@@ -23,11 +23,11 @@ RCServer relates to the first, OTemperature to the second and IntegrateRCServer 
 
 ###### Execute binaries:
 To execute RCServer run:  ./RCServer\
-To execute the OTemperature and the IntegrateRCServer tasks run: ./filname <devId> <appId> <appAccessKey>
+To execute the OTemperature and the IntegrateRCServer tasks run: ./filname &lt;devId&gt; &lt;appId&gt; &lt;appAccessKey&gt;
 
 #### Port and handles
 
-The RCServer and IntegrateRCServer run on port 8080
-Receive the counter with "/count" in case of RCServer and IntegrateRCServer.
+The RCServer and IntegrateRCServer run on port 8080\
+Receive the counter with "/count" in case of RCServer and IntegrateRCServer.\
 Receive the office temperature via "/temperature/appID/devID" in case of the IntegrateRCServer.
 
