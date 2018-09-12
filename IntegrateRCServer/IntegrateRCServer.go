@@ -64,10 +64,10 @@ func main() {
 	r := mux.NewRouter()
 
 	// Route handle: Returning the counter and incrementing the counter
-	r.HandleFunc("/Count", returnCounter).Methods("GET")
+	r.HandleFunc("/count", returnCounter).Methods("GET")
 
 	// Route handle: Returning the temperature and incrementing the counter
-	r.HandleFunc("/Temperature/"+appID+"/"+devID, returnTemperature).Methods("GET")
+	r.HandleFunc("/temperature/"+appID+"/"+devID, returnTemperature).Methods("GET")
 
 	//NotFoundHandler to catch error 404 page not found and increment counter
 	r.NotFoundHandler = http.HandlerFunc(notFound)
