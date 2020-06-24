@@ -1,16 +1,15 @@
-# TTN Intern 
+# The thing network project 
 
-This repository contains the answer to a case given as part of an application process.
-
-The case is composed of the following three subtasks:\
+The repository is composed of the three subtasks:\
     - Delivering a server which counts the requests its handles and can return this number when requested\
     - Implement a microservice that keep track of the temperature measurements published by a TTNode\
-    -Combine subtask one and two to allowing requests to the server which return the most current temperature measurement\
+    - Combine subtask one and two to allowing requests to the server which return the most current temperature measurement\
     
 ##### Tree Structure     
 
-The repository contains three folders one for each subtask.
-RCServer relates to the first, OTemperature to the second and IntegrateRCServer to the third sub-task. Each folder holds its own makefile.
+Three folders one for each subtask.
+RCServer relates to the first, OTemperature to the second and IntegrateRCServer to the third sub-task. 
+Each folder holds its own makefile.
 
 #### Build and execute
 ###### Building the project:
