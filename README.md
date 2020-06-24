@@ -1,4 +1,4 @@
-# The thing network project 
+# The Things Network - Project
 
 The repository is composed of the three subtasks:\
     - Delivering a server which counts the requests its handles and can return this number when requested\
